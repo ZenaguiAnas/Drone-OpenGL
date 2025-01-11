@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1736618452 source:c:\users\hp\documents\untitled\sample_opengl\main.cpp
+	<GL/glut.h>
+	<iostream>
+	<vector>
+	<assimp/Importer.hpp>
+	<assimp/scene.h>
+	<assimp/postprocess.h>
+
