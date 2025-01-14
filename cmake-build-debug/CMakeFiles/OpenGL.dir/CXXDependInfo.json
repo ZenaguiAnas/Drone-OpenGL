@@ -11,10 +11,7 @@
 	"dir-top-src" : "/home/bakr/CLionProjects/Drone-OpenGL",
 	"exports" : [],
 	"forward-modules-from-target-dirs" : [],
-	"include-dirs" : 
-	[
-		"/home/bakr/CLionProjects/Drone-OpenGL/include"
-	],
+	"include-dirs" : [],
 	"language" : "CXX",
 	"linked-target-dirs" : [],
 	"module-dir" : "/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir"
