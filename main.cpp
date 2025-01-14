@@ -21,7 +21,7 @@ std::string modelPath = "C:\\Users\\hp\\Downloads\\Drone.obj";
 
 // Material properties
 float materialColor[3] = {0.8f, 0.8f, 0.8f}; // RGB color
-float materialShininess = 50.0f;
+float materialShininess = 50.0f;  // Default shininess value
 
 // AntTweakBar handle
 TwBar* tweakBar;
@@ -107,6 +107,10 @@ void initOpenGL() {
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition); // Set the light source position
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+    // Set initial material properties
+    GLfloat materialSpecular[] = {1.0f, 1.0f, 1.0f, 1.0f};  // White specular highlight
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, materialSpecular);
 }
 
 // Initialize AntTweakBar
@@ -127,6 +131,13 @@ void display() {
     glRotatef(cameraAngleX, 1.0f, 0.0f, 0.0f);
     glRotatef(cameraAngleY, 0.0f, 1.0f, 0.0f);
     glTranslatef(-cameraPosX, -cameraPosY, 0.0f);
+
+    // Update material properties based on the tweak bar values
+    GLfloat materialShininessValue[] = {materialShininess};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, materialShininessValue);
+
+    // Set the diffuse material color
+    glColor3f(materialColor[0], materialColor[1], materialColor[2]);
 
     // Render the model
     if (scene && scene->mRootNode) {
