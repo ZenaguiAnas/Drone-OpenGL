@@ -23,6 +23,15 @@ std::string modelPath = "C:\\Users\\hp\\Downloads\\Drone.obj";
 float materialColor[3] = {0.8f, 0.8f, 0.8f}; // RGB color
 float materialShininess = 50.0f;  // Default shininess value
 
+// Light sources (directional and point lights)
+bool lightEnabled[3] = {true, true, false}; // Light 0 and 1 are enabled by default, Light 2 is disabled
+float lightPosition[3][4] = {{1.0f, 1.0f, 1.0f, 0.0f},   // Directional light
+                             {2.0f, 2.0f, 0.0f, 1.0f},   // Point light 1
+                             {-2.0f, -2.0f, 0.0f, 1.0f}}; // Point light 2
+float lightColor[3][3] = {{1.0f, 1.0f, 1.0f}, // Light 0 color (white)
+                          {1.0f, 0.5f, 0.0f}, // Light 1 color (orange)
+                          {0.0f, 0.0f, 1.0f}}; // Light 2 color (blue)
+
 // AntTweakBar handle
 TwBar* tweakBar;
 
@@ -100,13 +109,7 @@ void renderNode(const aiNode* node, const aiScene* scene) {
 void initOpenGL() {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
     glEnable(GL_COLOR_MATERIAL);
-
-    GLfloat lightPosition[] = {1.0f, 1.0f, 1.0f, 0.0f}; // Position of the light source
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition); // Set the light source position
-
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
     // Set initial material properties
     GLfloat materialSpecular[] = {1.0f, 1.0f, 1.0f, 1.0f};  // White specular highlight
@@ -116,9 +119,46 @@ void initOpenGL() {
 // Initialize AntTweakBar
 void initTweakBar() {
     TwInit(TW_OPENGL, nullptr);
-    tweakBar = TwNewBar("Material Properties");
+    tweakBar = TwNewBar("Material and Lighting");
+
+    // Material properties
     TwAddVarRW(tweakBar, "Color", TW_TYPE_COLOR3F, &materialColor, " label='Material Color' ");
     TwAddVarRW(tweakBar, "Shininess", TW_TYPE_FLOAT, &materialShininess, " label='Material Shininess' min=0 max=128 step=1 ");
+
+    // Light controls
+    TwAddVarRW(tweakBar, "Light 0", TW_TYPE_BOOL32, &lightEnabled[0], " label='Directional Light' ");
+    TwAddVarRW(tweakBar, "Light 1", TW_TYPE_BOOL32, &lightEnabled[1], " label='Point Light 1' ");
+    TwAddVarRW(tweakBar, "Light 2", TW_TYPE_BOOL32, &lightEnabled[2], " label='Point Light 2' ");
+}
+
+// Set light properties
+void setLights() {
+    // Light 0 (Directional Light)
+    if (lightEnabled[0]) {
+        glEnable(GL_LIGHT0);
+        glLightfv(GL_LIGHT0, GL_POSITION, lightPosition[0]);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor[0]);
+    } else {
+        glDisable(GL_LIGHT0);
+    }
+
+    // Light 1 (Point Light 1)
+    if (lightEnabled[1]) {
+        glEnable(GL_LIGHT1);
+        glLightfv(GL_LIGHT1, GL_POSITION, lightPosition[1]);
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor[1]);
+    } else {
+        glDisable(GL_LIGHT1);
+    }
+
+    // Light 2 (Point Light 2)
+    if (lightEnabled[2]) {
+        glEnable(GL_LIGHT2);
+        glLightfv(GL_LIGHT2, GL_POSITION, lightPosition[2]);
+        glLightfv(GL_LIGHT2, GL_DIFFUSE, lightColor[2]);
+    } else {
+        glDisable(GL_LIGHT2);
+    }
 }
 
 // Render scene
@@ -131,6 +171,9 @@ void display() {
     glRotatef(cameraAngleX, 1.0f, 0.0f, 0.0f);
     glRotatef(cameraAngleY, 0.0f, 1.0f, 0.0f);
     glTranslatef(-cameraPosX, -cameraPosY, 0.0f);
+
+    // Set lights
+    setLights();
 
     // Update material properties based on the tweak bar values
     GLfloat materialShininessValue[] = {materialShininess};
@@ -216,7 +259,7 @@ int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(800, 600);
-    glutCreateWindow("3D Drone Viewer with Material Editor");
+    glutCreateWindow("3D Drone Viewer with Material Editor and Lights");
 
     // Initialize OpenGL
     initOpenGL();
@@ -230,12 +273,11 @@ int main(int argc, char** argv) {
     // Register callbacks
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
-    glutKeyboardFunc(keyboard);
     glutMouseFunc(mouse);
     glutMotionFunc(mouseMotion);
+    glutKeyboardFunc(keyboard);
 
-    // Enter the main loop
+    // Start main loop
     glutMainLoop();
-
     return 0;
 }
