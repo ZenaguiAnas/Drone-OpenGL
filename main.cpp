@@ -9,6 +9,8 @@
 #include <cfloat>
 #include <string>
 #include "bin/Debug/stb_image.h"
+#include <map>
+#include <algorithm>
 
 // Existing camera settings
 float cameraDistance = 10.0f;
@@ -69,6 +71,7 @@ void setupLighting() {
     GLfloat light_position[] = { 0.0f, 5.0f, 5.0f, 1.0f };
     GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
     GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+}
 // Function prototypes
 void toggleCollisionHighlights();
 bool checkCollision(const aiMesh* mesh1, const aiMesh* mesh2);
@@ -79,11 +82,6 @@ int selectedObjectIndex = -1; // No object selected by default
 bool animateSelectedObject = false;
 float animationAngle = 0.0f; // Rotation angle
 const float animationSpeed = 2.0f; // Speed of rotation (degrees per frame)
-// Recursive rendering function
-void renderNode(const aiNode* node, const aiScene* scene, bool selectMode = false) {
-    aiMatrix4x4 transform = node->mTransformation;
-    transform.Transpose();
-
 
 void renderSelectedObject(const aiMesh* mesh) {
     glPushMatrix();
@@ -253,7 +251,7 @@ GLuint loadTexture(const std::string& path) {
 
 
 // Updated renderNode function to apply textures
-void renderNode(const aiNode* node, const aiScene* scene, int nodeIndex = 0) {
+void renderNode(const aiNode* node, const aiScene* scene, int nodeIndex = 0,bool selectMode = false) {
     for (unsigned int i = 0; i < node->mNumMeshes; i++) {
         const aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         unsigned int meshID = node->mMeshes[i];
@@ -284,7 +282,7 @@ void renderNode(const aiNode* node, const aiScene* scene, int nodeIndex = 0) {
                 glColor3f(0.8f, 0.8f, 0.8f);
             }
         }
-        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+        mesh = scene->mMeshes[node->mMeshes[i]];
 
         // Render selected object in isolation
         if (selectedObjectIndex == nodeIndex) {
@@ -691,16 +689,6 @@ void keyboard(unsigned char key, int x, int y) {
 
 void initAnimation() {
     glutTimerFunc(16, updateAnimation, 0); // Start animation timer
-}
-
-// Handle window resize
-void reshape(int w, int h) {
-    glViewport(0, 0, w, h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(45.0, (double)w / (double)h, 1.0, 100.0);
-    glMatrixMode(GL_MODELVIEW);
-    TwWindowSize(w, h);
 }
 
 int main(int argc, char** argv) {

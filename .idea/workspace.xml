@@ -7,8 +7,8 @@
     <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
-    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="47" type="long" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexRemoved" />
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="47" type="long" />
   </component>
   <component name="CMakePresetLoader">{
   &quot;useNewFormat&quot;: true
@@ -42,7 +42,6 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -64,12 +63,17 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/main.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
