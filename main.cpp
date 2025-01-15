@@ -26,7 +26,6 @@ std::string modelPath = "C:\\Users\\hp\\Downloads\\Drone.obj";
 GLuint textureID;
 std::string texturePath = "C:\\Users\\hp\\Downloads\\bmetal.jpg";
 
-
 // Material properties
 float materialColor[3] = {0.8f, 0.8f, 0.8f}; // RGB color
 float materialShininess = 50.0f;  // Default shininess value
@@ -48,6 +47,68 @@ TwBar* tweakBar;
 bool isDragging = false;
 int lastMouseX = 0;
 int lastMouseY = 0;
+
+bool showCollisionHighlights = true;
+
+// Function prototypes
+void toggleCollisionHighlights();
+bool checkCollision(const aiMesh* mesh1, const aiMesh* mesh2);
+void drawCollisionHighlight(const aiMesh* mesh);
+
+// Helper function to calculate bounding boxes
+void calculateBoundingBox(const aiMesh* mesh, aiVector3D& min, aiVector3D& max) {
+    min = aiVector3D(FLT_MAX, FLT_MAX, FLT_MAX);
+    max = aiVector3D(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+
+    for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
+        aiVector3D vertex = mesh->mVertices[i];
+        min.x = std::min(min.x, vertex.x);
+        min.y = std::min(min.y, vertex.y);
+        min.z = std::min(min.z, vertex.z);
+        max.x = std::max(max.x, vertex.x);
+        max.y = std::max(max.y, vertex.y);
+        max.z = std::max(max.z, vertex.z);
+    }
+}
+
+// Collision detection
+bool checkCollision(const aiMesh* mesh1, const aiMesh* mesh2) {
+    aiVector3D min1, max1, min2, max2;
+    calculateBoundingBox(mesh1, min1, max1);
+    calculateBoundingBox(mesh2, min2, max2);
+
+    return (min1.x <= max2.x && max1.x >= min2.x) &&
+           (min1.y <= max2.y && max1.y >= min2.y) &&
+           (min1.z <= max2.z && max1.z >= min2.z);
+}
+
+// Toggle collision highlights
+void toggleCollisionHighlights() {
+    showCollisionHighlights = !showCollisionHighlights;
+    glutPostRedisplay();
+}
+
+// Render collision highlights
+void drawCollisionHighlight(const aiMesh* mesh) {
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glLineWidth(2.0f);
+
+    glBegin(GL_LINES);
+    for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
+        aiFace face = mesh->mFaces[i];
+        for (unsigned int j = 0; j < face.mNumIndices; ++j) {
+            unsigned int index1 = face.mIndices[j];
+            unsigned int index2 = face.mIndices[(j + 1) % face.mNumIndices];
+
+            aiVector3D vertex1 = mesh->mVertices[index1];
+            aiVector3D vertex2 = mesh->mVertices[index2];
+
+            glVertex3f(vertex1.x, vertex1.y, vertex1.z);
+            glVertex3f(vertex2.x, vertex2.y, vertex2.z);
+        }
+    }
+    glEnd();
+}
 
 // Function to load the model and calculate bounding box
 float calculateInitialDistance(const aiScene* scene) {
@@ -105,6 +166,7 @@ GLuint loadTexture(const std::string& path) {
     return texID;
 }
 
+
 // Updated renderNode function to apply textures
 void renderNode(const aiNode* node, const aiScene* scene) {
     for (unsigned int i = 0; i < node->mNumMeshes; i++) {
@@ -134,12 +196,22 @@ void renderNode(const aiNode* node, const aiScene* scene) {
         glEnd();
 
         glDisable(GL_TEXTURE_2D); // Disable texturing after use
+
+        // Highlight collisions
+        if (showCollisionHighlights) {
+            for (unsigned int j = 0; j < scene->mNumMeshes; ++j) {
+                if (mesh != scene->mMeshes[j] && checkCollision(mesh, scene->mMeshes[j])) {
+                    drawCollisionHighlight(mesh);
+                }
+            }
+        }
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; i++) {
         renderNode(node->mChildren[i], scene);
     }
 }
+
 
 // Initialize OpenGL settings
 void initOpenGL() {
@@ -167,6 +239,8 @@ void initTweakBar() {
     TwAddVarRW(tweakBar, "Light 0", TW_TYPE_BOOL32, &lightEnabled[0], " label='Directional Light' ");
     TwAddVarRW(tweakBar, "Light 1", TW_TYPE_BOOL32, &lightEnabled[1], " label='Point Light 1' ");
     TwAddVarRW(tweakBar, "Light 2", TW_TYPE_BOOL32, &lightEnabled[2], " label='Point Light 2' ");
+    TwAddVarRW(tweakBar, "Highlight Collisions", TW_TYPE_BOOL32, &showCollisionHighlights, " label='Highlight Collisions' ");
+
 }
 
 // Set light properties

@@ -1,5 +1,6 @@
 # depslib dependency file v1.0
-1736880906 source:c:\users\hp\documents\untitled\sample_opengl\main.cpp
+1736951993 source:c:\users\hp\documents\untitled\sample_opengl\main.cpp
+	"stb_image.h"
 	<GL/glut.h>
 	<AntTweakBar.h>
 	<assimp/Importer.hpp>
@@ -8,6 +9,7 @@
 	<iostream>
 	<vector>
 	<cfloat>
+	<string>
 
 1736689232 source:c:\users\hp\downloads\droneproject\imgui\backends\imgui_impl_glut.cpp
 	"imgui.h"
