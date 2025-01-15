@@ -1,3 +1,5 @@
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 #include <GL/glut.h>
 #include <AntTweakBar.h>
 #include <assimp/Importer.hpp>
@@ -6,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <cfloat>
+#include <string>
 
 // Camera parameters
 float cameraAngleX = 0.0f;
@@ -18,6 +21,11 @@ float cameraPosY = 0.0f;
 const aiScene* scene = nullptr;
 Assimp::Importer importer;
 std::string modelPath = "C:\\Users\\hp\\Downloads\\Drone.obj";
+
+// Texture variables
+GLuint textureID;
+std::string texturePath = "C:\\Users\\hp\\Downloads\\bmetal.jpg";
+
 
 // Material properties
 float materialColor[3] = {0.8f, 0.8f, 0.8f}; // RGB color
@@ -34,6 +42,7 @@ float lightColor[3][3] = {{1.0f, 1.0f, 1.0f}, // Light 0 color (white)
 
 // AntTweakBar handle
 TwBar* tweakBar;
+
 
 // Mouse state tracking variables
 bool isDragging = false;
@@ -72,13 +81,38 @@ void loadModel(const std::string& path) {
     cameraDistance = calculateInitialDistance(scene); // Adjust camera distance
 }
 
-// Recursive function to render the model
+// Function to load a texture using stb_image
+GLuint loadTexture(const std::string& path) {
+    int width, height, channels;
+    unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+    if (!data) {
+        std::cerr << "Failed to load texture: " << path << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    GLuint texID;
+    glGenTextures(1, &texID);
+    glBindTexture(GL_TEXTURE_2D, texID);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, (channels == 4 ? GL_RGBA : GL_RGB), GL_UNSIGNED_BYTE, data);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    stbi_image_free(data);
+    return texID;
+}
+
+// Updated renderNode function to apply textures
 void renderNode(const aiNode* node, const aiScene* scene) {
     for (unsigned int i = 0; i < node->mNumMeshes; i++) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-
-        // Apply material color to the model
         glColor3f(materialColor[0], materialColor[1], materialColor[2]);
+
+        glEnable(GL_TEXTURE_2D); // Enable texturing
+        glBindTexture(GL_TEXTURE_2D, textureID);
 
         glBegin(GL_TRIANGLES);
         for (unsigned int j = 0; j < mesh->mNumFaces; j++) {
@@ -98,6 +132,8 @@ void renderNode(const aiNode* node, const aiScene* scene) {
             }
         }
         glEnd();
+
+        glDisable(GL_TEXTURE_2D); // Disable texturing after use
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; i++) {
@@ -111,9 +147,11 @@ void initOpenGL() {
     glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
 
-    // Set initial material properties
-    GLfloat materialSpecular[] = {1.0f, 1.0f, 1.0f, 1.0f};  // White specular highlight
+    GLfloat materialSpecular[] = {1.0f, 1.0f, 1.0f, 1.0f};
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, materialSpecular);
+
+    // Load texture
+    textureID = loadTexture(texturePath);
 }
 
 // Initialize AntTweakBar
@@ -279,5 +317,6 @@ int main(int argc, char** argv) {
 
     // Start main loop
     glutMainLoop();
+    TwTerminate();
     return 0;
 }
