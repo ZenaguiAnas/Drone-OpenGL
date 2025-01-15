@@ -15,14 +15,16 @@
 			"set_property",
 			"find_package",
 			"set_target_properties",
-			"include"
+			"include",
+			"target_include_directories"
 		],
 		"files" : 
 		[
 			"CMakeLists.txt",
 			"/home/bakr/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindOpenGL.cmake",
 			"/usr/lib/cmake/assimp-5.4/assimpTargets.cmake",
-			"/usr/lib/cmake/assimp-5.4/assimpConfig.cmake"
+			"/usr/lib/cmake/assimp-5.4/assimpConfig.cmake",
+			"/home/bakr/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindGLUT.cmake"
 		],
 		"nodes" : 
 		[
@@ -38,13 +40,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 16,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 20,
+				"line" : 21,
 				"parent" : 0
 			},
 			{
@@ -54,52 +50,98 @@
 				"parent" : 0
 			},
 			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 29,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 32,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 36,
+				"parent" : 0
+			},
+			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 14,
+				"line" : 16,
 				"parent" : 0
 			},
 			{
 				"file" : 1,
-				"parent" : 5
+				"parent" : 7
 			},
 			{
 				"command" : 2,
 				"file" : 1,
 				"line" : 712,
-				"parent" : 6
+				"parent" : 8
 			},
 			{
 				"command" : 4,
 				"file" : 1,
 				"line" : 710,
-				"parent" : 6
+				"parent" : 8
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 19,
+				"line" : 20,
 				"parent" : 0
 			},
 			{
 				"file" : 3,
-				"parent" : 9
+				"parent" : 11
 			},
 			{
 				"command" : 5,
 				"file" : 3,
 				"line" : 37,
-				"parent" : 10
+				"parent" : 12
 			},
 			{
 				"file" : 2,
-				"parent" : 11
+				"parent" : 13
 			},
 			{
 				"command" : 4,
 				"file" : 2,
 				"line" : 70,
-				"parent" : 12
+				"parent" : 14
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"file" : 4,
+				"parent" : 16
+			},
+			{
+				"command" : 2,
+				"file" : 4,
+				"line" : 209,
+				"parent" : 17
+			},
+			{
+				"command" : 2,
+				"file" : 4,
+				"line" : 214,
+				"parent" : 17
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 13,
+				"parent" : 0
 			}
 		]
 	},
@@ -110,6 +152,13 @@
 			[
 				{
 					"fragment" : "-g -std=gnu++20 -fdiagnostics-color=always"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 20,
+					"path" : "/home/bakr/CLionProjects/Drone-OpenGL/include"
 				}
 			],
 			"language" : "CXX",
@@ -142,47 +191,57 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-lGL",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 2,
-				"fragment" : "-lGLU",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 2,
-				"fragment" : "-lglut",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 3,
 				"fragment" : "/usr/lib/libassimp.so.5.4.3",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 4,
+				"backtrace" : 3,
 				"fragment" : "/usr/lib/libglfw.so.3.4",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 7,
+				"backtrace" : 4,
+				"fragment" : "/usr/lib/libglut.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "-lAntTweakBar",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "/usr/lib/libGLU.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
 				"fragment" : "/usr/lib/libGLX.so",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 8,
+				"backtrace" : 10,
 				"fragment" : "/usr/lib/libOpenGL.so",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 13,
+				"backtrace" : 15,
 				"fragment" : "/usr/lib/libz.so",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 13,
+				"backtrace" : 15,
 				"fragment" : "-lrt",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 18,
+				"fragment" : "/usr/lib/libXmu.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 19,
+				"fragment" : "/usr/lib/libXi.so",
 				"role" : "libraries"
 			}
 		],

@@ -13,7 +13,7 @@
 #include <algorithm>
 
 // Existing camera settings
-float cameraDistance = 10.0f;
+float cameraDistance = 5.0f;
 float cameraAngleX = 0.0f;
 float cameraAngleY = 0.0f;
 float cameraPosX = 0.0f;
