@@ -1,0 +1,65 @@
+Index: cmake-build-debug/.ninja_log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># ninja log v6\n1\t282\t1736671177115418757\tCMakeFiles/OpenGL.dir/main.cpp.o.ddi\t67db7de592a87d21\n283\t287\t1736671177402074655\t/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json\tf602261bc3637424\n283\t287\t1736671177402074655\tCMakeFiles/OpenGL.dir/CXX.dd\tf602261bc3637424\n283\t287\t1736671177402074655\tCMakeFiles/OpenGL.dir/main.cpp.o.modmap\tf602261bc3637424\n287\t1402\t1736671177402074655\tCMakeFiles/OpenGL.dir/main.cpp.o\t5584d311268c1af1\n1\t6\t1736671260418220008\tCMakeFiles/OpenGL.dir/CXX.dd\tf602261bc3637424\n1\t6\t1736671260418220008\t/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json\tf602261bc3637424\n1\t6\t1736671260418220008\tCMakeFiles/OpenGL.dir/main.cpp.o.modmap\tf602261bc3637424\n6\t121\t1736671260424886769\tOpenGL\tf713f01f51e33d40\n2\t183\t1736671289978751834\tCMakeFiles/OpenGL.dir/main.cpp.o.ddi\t67db7de592a87d21\n183\t187\t1736671290162089085\tCMakeFiles/OpenGL.dir/CXX.dd\tf602261bc3637424\n183\t187\t1736671290162089085\t/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json\tf602261bc3637424\n183\t187\t1736671290162089085\tCMakeFiles/OpenGL.dir/main.cpp.o.modmap\tf602261bc3637424\n187\t1253\t1736671290165422489\tCMakeFiles/OpenGL.dir/main.cpp.o\t5584d311268c1af1\n1254\t1338\t1736671291232112016\tOpenGL\tf713f01f51e33d40\n1\t232\t1736671481262579072\tCMakeFiles/OpenGL.dir/main.cpp.o.ddi\t67db7de592a87d21\n232\t236\t1736671481492573243\tCMakeFiles/OpenGL.dir/CXX.dd\tf602261bc3637424\n232\t236\t1736671481492573243\t/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json\tf602261bc3637424\n232\t236\t1736671481492573243\tCMakeFiles/OpenGL.dir/main.cpp.o.modmap\tf602261bc3637424\n237\t1350\t1736671481499239741\tCMakeFiles/OpenGL.dir/main.cpp.o\t5584d311268c1af1\n1350\t1438\t1736671482612545079\tOpenGL\tf713f01f51e33d40\n16\t359\t1736858628957226484\tCMakeFiles/OpenGL.dir/main.cpp.o.ddi\t67db7de592a87d21\n359\t363\t1736858629300559163\tCMakeFiles/OpenGL.dir/CXX.dd\tf602261bc3637424\n359\t363\t1736858629300559163\t/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json\tf602261bc3637424\n359\t363\t1736858629300559163\tCMakeFiles/OpenGL.dir/main.cpp.o.modmap\tf602261bc3637424\n363\t1790\t1736858629303892490\tCMakeFiles/OpenGL.dir/main.cpp.o\t5584d311268c1af1\n1791\t1912\t1736858630733889772\tOpenGL\tf713f01f51e33d40\n1\t213\t1736858873695087711\tCMakeFiles/OpenGL.dir/main.cpp.o.ddi\t67db7de592a87d21\n213\t218\t1736858873908419907\tCMakeFiles/OpenGL.dir/CXX.dd\tf602261bc3637424\n213\t218\t1736858873908419907\t/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json\tf602261bc3637424\n213\t218\t1736858873908419907\tCMakeFiles/OpenGL.dir/main.cpp.o.modmap\tf602261bc3637424\n218\t1541\t1736858873911753223\tCMakeFiles/OpenGL.dir/main.cpp.o\t5584d311268c1af1\n1541\t1621\t1736858875238412844\tOpenGL\tf713f01f51e33d40\n
+===================================================================
+diff --git a/cmake-build-debug/.ninja_log b/cmake-build-debug/.ninja_log
+--- a/cmake-build-debug/.ninja_log	(revision e99e594ab83c9e7375dd178521dabe74afe33dcf)
++++ b/cmake-build-debug/.ninja_log	(date 1736956248729)
+@@ -1,34 +1,13 @@
+ # ninja log v6
+-1	282	1736671177115418757	CMakeFiles/OpenGL.dir/main.cpp.o.ddi	67db7de592a87d21
+-283	287	1736671177402074655	/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json	f602261bc3637424
+-283	287	1736671177402074655	CMakeFiles/OpenGL.dir/CXX.dd	f602261bc3637424
+-283	287	1736671177402074655	CMakeFiles/OpenGL.dir/main.cpp.o.modmap	f602261bc3637424
+-287	1402	1736671177402074655	CMakeFiles/OpenGL.dir/main.cpp.o	5584d311268c1af1
+-1	6	1736671260418220008	CMakeFiles/OpenGL.dir/CXX.dd	f602261bc3637424
+-1	6	1736671260418220008	/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json	f602261bc3637424
+-1	6	1736671260418220008	CMakeFiles/OpenGL.dir/main.cpp.o.modmap	f602261bc3637424
+-6	121	1736671260424886769	OpenGL	f713f01f51e33d40
+-2	183	1736671289978751834	CMakeFiles/OpenGL.dir/main.cpp.o.ddi	67db7de592a87d21
+-183	187	1736671290162089085	CMakeFiles/OpenGL.dir/CXX.dd	f602261bc3637424
+-183	187	1736671290162089085	/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json	f602261bc3637424
+-183	187	1736671290162089085	CMakeFiles/OpenGL.dir/main.cpp.o.modmap	f602261bc3637424
+-187	1253	1736671290165422489	CMakeFiles/OpenGL.dir/main.cpp.o	5584d311268c1af1
+-1254	1338	1736671291232112016	OpenGL	f713f01f51e33d40
+-1	232	1736671481262579072	CMakeFiles/OpenGL.dir/main.cpp.o.ddi	67db7de592a87d21
+-232	236	1736671481492573243	CMakeFiles/OpenGL.dir/CXX.dd	f602261bc3637424
+-232	236	1736671481492573243	/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json	f602261bc3637424
+-232	236	1736671481492573243	CMakeFiles/OpenGL.dir/main.cpp.o.modmap	f602261bc3637424
+-237	1350	1736671481499239741	CMakeFiles/OpenGL.dir/main.cpp.o	5584d311268c1af1
+-1350	1438	1736671482612545079	OpenGL	f713f01f51e33d40
+-16	359	1736858628957226484	CMakeFiles/OpenGL.dir/main.cpp.o.ddi	67db7de592a87d21
+-359	363	1736858629300559163	CMakeFiles/OpenGL.dir/CXX.dd	f602261bc3637424
+-359	363	1736858629300559163	/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json	f602261bc3637424
+-359	363	1736858629300559163	CMakeFiles/OpenGL.dir/main.cpp.o.modmap	f602261bc3637424
+-363	1790	1736858629303892490	CMakeFiles/OpenGL.dir/main.cpp.o	5584d311268c1af1
+-1791	1912	1736858630733889772	OpenGL	f713f01f51e33d40
+ 1	213	1736858873695087711	CMakeFiles/OpenGL.dir/main.cpp.o.ddi	67db7de592a87d21
+-213	218	1736858873908419907	CMakeFiles/OpenGL.dir/CXX.dd	f602261bc3637424
+ 213	218	1736858873908419907	/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json	f602261bc3637424
++213	218	1736858873908419907	CMakeFiles/OpenGL.dir/CXX.dd	f602261bc3637424
++1541	1621	1736858875238412844	OpenGL	f713f01f51e33d40
+ 213	218	1736858873908419907	CMakeFiles/OpenGL.dir/main.cpp.o.modmap	f602261bc3637424
+ 218	1541	1736858873911753223	CMakeFiles/OpenGL.dir/main.cpp.o	5584d311268c1af1
+-1541	1621	1736858875238412844	OpenGL	f713f01f51e33d40
++1	167	1736956247436236181	CMakeFiles/OpenGL.dir/main.cpp.o.ddi	67db7de592a87d21
++167	169	1736956247599567173	CMakeFiles/OpenGL.dir/CXX.dd	f602261bc3637424
++167	169	1736956247599567173	/home/bakr/CLionProjects/Drone-OpenGL/cmake-build-debug/CMakeFiles/OpenGL.dir/CXXModules.json	f602261bc3637424
++167	169	1736956247599567173	CMakeFiles/OpenGL.dir/main.cpp.o.modmap	f602261bc3637424
++170	1206	1736956247602900459	CMakeFiles/OpenGL.dir/main.cpp.o	5584d311268c1af1
++1207	1294	1736956248639552282	OpenGL	f713f01f51e33d40
+Index: cmake-build-debug/Testing/Temporary/LastTest.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Start testing: Jan 14 13:47 +01\n----------------------------------------------------------\nEnd testing: Jan 14 13:47 +01\n
+===================================================================
+diff --git a/cmake-build-debug/Testing/Temporary/LastTest.log b/cmake-build-debug/Testing/Temporary/LastTest.log
+--- a/cmake-build-debug/Testing/Temporary/LastTest.log	(revision e99e594ab83c9e7375dd178521dabe74afe33dcf)
++++ b/cmake-build-debug/Testing/Temporary/LastTest.log	(date 1736956259826)
+@@ -1,3 +1,3 @@
+-Start testing: Jan 14 13:47 +01
++Start testing: Jan 15 16:50 +01
+ ----------------------------------------------------------
+-End testing: Jan 14 13:47 +01
++End testing: Jan 15 16:50 +01

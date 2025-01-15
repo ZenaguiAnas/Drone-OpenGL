@@ -1,7 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 #include <GL/glut.h>
-#include <AntTweakBar.h>
+#include "bin/Debug/AntTweakBar.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -9,6 +8,7 @@
 #include <vector>
 #include <cfloat>
 #include <string>
+#include "bin/Debug/stb_image.h"
 
 // Camera parameters
 float cameraAngleX = 0.0f;
@@ -20,11 +20,11 @@ float cameraPosY = 0.0f;
 // Model data
 const aiScene* scene = nullptr;
 Assimp::Importer importer;
-std::string modelPath = "C:\\Users\\hp\\Downloads\\Drone.obj";
+std::string modelPath = "/home/bakr/Drone.obj";
 
 // Texture variables
 GLuint textureID;
-std::string texturePath = "C:\\Users\\hp\\Downloads\\bmetal.jpg";
+std::string texturePath = "/home/bakr/Downloads/bmetal.jpg";
 
 // Material properties
 float materialColor[3] = {0.8f, 0.8f, 0.8f}; // RGB color
