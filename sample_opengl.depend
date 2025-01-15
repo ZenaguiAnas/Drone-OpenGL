@@ -1,9 +1,235 @@
 # depslib dependency file v1.0
-1736618452 source:c:\users\hp\documents\untitled\sample_opengl\main.cpp
+1736953429 source:c:\users\hp\documents\untitled\sample_opengl\main.cpp
+	"stb_image.h"
 	<GL/glut.h>
-	<iostream>
-	<vector>
+	<AntTweakBar.h>
 	<assimp/Importer.hpp>
 	<assimp/scene.h>
 	<assimp/postprocess.h>
+	<iostream>
+	<vector>
+	<cfloat>
+	<string>
+
+1736689232 source:c:\users\hp\downloads\droneproject\imgui\backends\imgui_impl_glut.cpp
+	"imgui.h"
+	"imgui_impl_glut.h"
+	<GLUT/glut.h>
+	<GL/freeglut.h>
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\backends\imgui_impl_glut.h
+	"imgui.h"
+
+1736689232 source:c:\users\hp\downloads\droneproject\imgui\backends\imgui_impl_opengl2.cpp
+	"imgui.h"
+	"imgui_impl_opengl2.h"
+	<stdint.h>
+	<OpenGL/gl.h>
+	<GL/gl.h>
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\backends\imgui_impl_opengl2.h
+	"imgui.h"
+
+1736689232 source:c:\users\hp\downloads\droneproject\imgui\imgui.cpp
+	"imgui.h"
+	"imgui_internal.h"
+	<stdio.h>
+	<stdint.h>
+	<Windows.h>
+	<windows.h>
+	<TargetConditionals.h>
+	"stb_sprintf.h"
+	<Carbon/Carbon.h>
+	<shellapi.h>
+	<sys/wait.h>
+	<unistd.h>
+	<imm.h>
+	"imgui_user.inl"
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\imgui.h
+	"imconfig.h"
+	<float.h>
+	<stdarg.h>
+	<stddef.h>
+	<string.h>
+	<assert.h>
+	"imgui_user.h"
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\imconfig.h
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\imgui_internal.h
+	"imgui.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<limits.h>
+	<immintrin.h>
+	<nmmintrin.h>
+
+1736689232 source:c:\users\hp\downloads\droneproject\imgui\imgui_draw.cpp
+	"imgui.h"
+	"imgui_internal.h"
+	"misc/freetype/imgui_freetype.h"
+	<stdio.h>
+	"imstb_rectpack.h"
+	"imstb_truetype.h"
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\misc\freetype\imgui_freetype.h
+	"imgui.h"
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\imstb_rectpack.h
+	<stdlib.h>
+	<assert.h>
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\imstb_truetype.h
+	"stb_truetype.h"
+	<stdio.h>
+	"stb_truetype.h"
+	<math.h>
+	<math.h>
+	<math.h>
+	<math.h>
+	<math.h>
+	<stdlib.h>
+	<assert.h>
+	<string.h>
+	<string.h>
+
+1736689232 source:c:\users\hp\downloads\droneproject\imgui\imgui_tables.cpp
+	"imgui.h"
+	"imgui_internal.h"
+	<stdint.h>
+
+1736689232 source:c:\users\hp\downloads\droneproject\imgui\imgui_widgets.cpp
+	"imgui.h"
+	"imgui_internal.h"
+	<stdint.h>
+	"imstb_textedit.h"
+	"imstb_textedit.h"
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\imstb_textedit.h
+	<string.h>
+
+1736689232 source:c:\users\hp\downloads\droneproject\imgui\backends\imgui_impl_opengl3.cpp
+	"imgui.h"
+	"imgui_impl_opengl3.h"
+	<stdio.h>
+	<stdint.h>
+	<TargetConditionals.h>
+	<OpenGLES/ES2/gl.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<OpenGLES/ES3/gl.h>
+	<GLES3/gl3.h>
+	"imgui_impl_opengl3_loader.h"
+	<stdio.h>
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\backends\imgui_impl_opengl3.h
+	"imgui.h"
+	<TargetConditionals.h>
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\backends\imgui_impl_opengl3_loader.h
+	<stdint.h>
+	<windows.h>
+	<stdlib.h>
+	<windows.h>
+	<dlfcn.h>
+	<dlfcn.h>
+
+1736863310 source:c:\users\hp\downloads\droneproject\imgui\backends\imgui_impl_glfw.cpp
+	"imgui.h"
+	"imgui_impl_glfw.h"
+	<glfw3.h>
+	<glfw3native.h>
+	<GLFW/glfw3native.h>
+	<unistd.h>
+	<emscripten.h>
+	<emscripten/html5.h>
+	<GLFW/emscripten_glfw3.h>
+
+1736689232 c:\users\hp\downloads\droneproject\imgui\backends\imgui_impl_glfw.h
+	"imgui.h"
+
+1736871342 c:\\users\\hp\\downloads\\stb_image.h
+	"stb_image.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<math.h>
+	<stdio.h>
+	<assert.h>
+	<stdint.h>
+	<emmintrin.h>
+	<intrin.h>
+	<arm_neon.h>
+
+1736879712 source:c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\image_dxt.c
+	"image_DXT.h"
+	<math.h>
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1736879712 c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\image_dxt.h
+
+1736879712 source:c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\image_helper.c
+	"image_helper.h"
+	<stdlib.h>
+	<math.h>
+
+1736879712 c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\image_helper.h
+
+1736879712 source:c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\soil.c
+	<windows.h>
+	<wingdi.h>
+	<GL/gl.h>
+	<windows.h>
+	<wingdi.h>
+	<GL/gl.h>
+	<OpenGL/gl.h>
+	<Carbon/Carbon.h>
+	<GLES/gl.h>
+	<GL/gl.h>
+	<GL/gl.h>
+	<GL/glx.h>
+	"SOIL.h"
+	"stb_image_aug.h"
+	"image_helper.h"
+	"image_DXT.h"
+	<stdlib.h>
+	<string.h>
+
+1736879712 c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\soil.h
+
+1736879712 c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\stb_image_aug.h
+	<stdio.h>
+
+1736879712 source:c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\stb_image_aug.c
+	"stb_image_aug.h"
+	<math.h>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<memory.h>
+	<assert.h>
+	<stdarg.h>
+	"stbi_DDS_aug.h"
+	"stbi_DDS_aug_c.h"
+
+1736879712 c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\stbi_dds_aug.h
+
+1736879712 c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\stbi_dds_aug_c.h
+
+1736879712 source:c:\users\hp\downloads\droneproject\simple-opengl-image-library\src\test_soil.cpp
+	<string>
+	<iostream>
+	<windows.h>
+	<shellapi.h>
+	<gl/gl.h>
+	<gl/glext.h>
+	"SOIL.h"
 
