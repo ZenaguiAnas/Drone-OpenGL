@@ -10,17 +10,28 @@
 #include <string>
 #include "bin/Debug/stb_image.h"
 
-// Camera parameters
+// Existing camera settings
+float cameraDistance = 10.0f;
 float cameraAngleX = 0.0f;
 float cameraAngleY = 0.0f;
-float cameraDistance = 5.0f;
 float cameraPosX = 0.0f;
 float cameraPosY = 0.0f;
+
+// New selection and manipulation settings
+struct MeshInfo {
+    bool isVisible = true;
+    bool isSelected = false;
+    GLenum displayMode = GL_FILL;  // GL_FILL, GL_LINE, GL_POINT
+    float position[3] = {0.0f, 0.0f, 0.0f};
+};
+
+std::map<unsigned int, MeshInfo> meshInfoMap;
+int selectedMeshIndex = -1;
 
 // Model data
 const aiScene* scene = nullptr;
 Assimp::Importer importer;
-std::string modelPath = "/home/bakr/D.rone.obj";
+std::string modelPath = "/home/bakr/Drone.obj";
 
 // Texture variables
 GLuint textureID;
@@ -50,6 +61,14 @@ int lastMouseY = 0;
 
 bool showCollisionHighlights = true;
 
+// Selection buffer
+GLuint selectBuf[512];
+
+// Lighting settings
+void setupLighting() {
+    GLfloat light_position[] = { 0.0f, 5.0f, 5.0f, 1.0f };
+    GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+    GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 // Function prototypes
 void toggleCollisionHighlights();
 bool checkCollision(const aiMesh* mesh1, const aiMesh* mesh2);
@@ -60,6 +79,10 @@ int selectedObjectIndex = -1; // No object selected by default
 bool animateSelectedObject = false;
 float animationAngle = 0.0f; // Rotation angle
 const float animationSpeed = 2.0f; // Speed of rotation (degrees per frame)
+// Recursive rendering function
+void renderNode(const aiNode* node, const aiScene* scene, bool selectMode = false) {
+    aiMatrix4x4 transform = node->mTransformation;
+    transform.Transpose();
 
 
 void renderSelectedObject(const aiMesh* mesh) {
@@ -232,6 +255,35 @@ GLuint loadTexture(const std::string& path) {
 // Updated renderNode function to apply textures
 void renderNode(const aiNode* node, const aiScene* scene, int nodeIndex = 0) {
     for (unsigned int i = 0; i < node->mNumMeshes; i++) {
+        const aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+        unsigned int meshID = node->mMeshes[i];
+
+        if (!meshInfoMap.count(meshID)) {
+            meshInfoMap[meshID] = MeshInfo();
+        }
+
+        if (!meshInfoMap[meshID].isVisible) {
+            continue;
+        }
+
+        if (selectMode) {
+            glLoadName(meshID);
+        }
+
+        glPushMatrix();
+        glTranslatef(meshInfoMap[meshID].position[0],
+                     meshInfoMap[meshID].position[1],
+                     meshInfoMap[meshID].position[2]);
+
+        glPolygonMode(GL_FRONT_AND_BACK, meshInfoMap[meshID].displayMode);
+
+        if (!selectMode) {
+            if (meshInfoMap[meshID].isSelected) {
+                glColor3f(1.0f, 0.5f, 0.0f);
+            } else {
+                glColor3f(0.8f, 0.8f, 0.8f);
+            }
+        }
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 
         // Render selected object in isolation
@@ -273,9 +325,27 @@ void renderNode(const aiNode* node, const aiScene* scene, int nodeIndex = 0) {
                 }
             }
         }
+        glBegin(GL_TRIANGLES);
+        for (unsigned int j = 0; j < mesh->mNumFaces; j++) {
+            const aiFace& face = mesh->mFaces[j];
+            for (unsigned int k = 0; k < face.mNumIndices; k++) {
+                int index = face.mIndices[k];
+                if (mesh->HasNormals()) {
+                    glNormal3fv(&mesh->mNormals[index].x);
+                }
+                if (mesh->HasTextureCoords(0)) {
+                    glTexCoord2fv(&mesh->mTextureCoords[0][index].x);
+                }
+                glVertex3fv(&mesh->mVertices[index].x);
+            }
+        }
+        glEnd();
+
+        glPopMatrix();
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; i++) {
+        renderNode(node->mChildren[i], scene, selectMode);
         renderNode(node->mChildren[i], scene, i);
     }
 }
@@ -341,6 +411,67 @@ void setLights() {
     }
 }
 
+// Process selection using OpenGL's selection mechanism
+void processSelection(int x, int y) {
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+
+    glSelectBuffer(512, selectBuf);
+    glRenderMode(GL_SELECT);
+
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+
+    gluPickMatrix(x, viewport[3] - y, 5.0, 5.0, viewport);
+    gluPerspective(45.0, (double)viewport[2] / viewport[3], 1.0, 100.0);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    gluLookAt(cameraDistance * sin(cameraAngleY) * cos(cameraAngleX),
+              cameraDistance * sin(cameraAngleX),
+              cameraDistance * cos(cameraAngleY) * cos(cameraAngleX),
+              cameraPosX, cameraPosY, 0.0f,
+              0.0f, 1.0f, 0.0f);
+
+    glInitNames();
+    glPushName(0);
+
+    renderNode(scene->mRootNode, scene, true);
+
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+
+    GLint hits = glRenderMode(GL_RENDER);
+
+    if (hits > 0) {
+        selectedMeshIndex = selectBuf[3];
+        meshInfoMap[selectedMeshIndex].isSelected = true;
+    } else {
+        selectedMeshIndex = -1;
+    }
+}
+
+// Initialize OpenGL and Assimp
+bool initialize() {
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_COLOR_MATERIAL);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+    scene = importer.ReadFile(modelPath, aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_FlipUVs);
+    if (!scene) {
+        std::cerr << "Failed to load model: " << importer.GetErrorString() << std::endl;
+        return false;
+    }
+
+    setupLighting();
+    return true;
+}
+
+// Display callback
 // Render scene
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -354,6 +485,12 @@ void display() {
 
     // Set lights
     setLights();
+    // Set camera position
+    gluLookAt(cameraDistance * sin(cameraAngleY) * cos(cameraAngleX),
+              cameraDistance * sin(cameraAngleX),
+              cameraDistance * cos(cameraAngleY) * cos(cameraAngleX),
+              cameraPosX, cameraPosY, 0.0f,
+              0.0f, 1.0f, 0.0f);
 
     // Update material properties based on the tweak bar values
     GLfloat materialShininessValue[] = {materialShininess};
@@ -373,6 +510,31 @@ void display() {
     glutSwapBuffers();
 }
 
+// Window reshape callback
+void reshape(int w, int h) {
+    if (h == 0) h = 1;  // Prevent division by zero
+
+    glViewport(0, 0, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0f, (float)w / h, 0.1f, 100.0f);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+// Mouse button callback
+void mouseButton(int button, int state, int x, int y) {
+    static int lastX = 0, lastY = 0;
+
+    if (button == GLUT_LEFT_BUTTON) {
+        if (state == GLUT_DOWN) {
+            processSelection(x, y);
+            lastX = x;
+            lastY = y;
+        }
+    }
+}
+
+// Mouse motion callback
 // Handle mouse motion for AntTweakBar and camera
 void mouseMotion(int x, int y) {
     if (!TwEventMouseMotionGLUT(x, y) && isDragging) {
@@ -382,6 +544,28 @@ void mouseMotion(int x, int y) {
         lastMouseY = y;
         glutPostRedisplay();
     }
+    static int lastX = 0, lastY = 0;
+
+    int dx = x - lastX;
+    int dy = y - lastY;
+
+    if (glutGetModifiers() & GLUT_ACTIVE_CTRL) {
+        // Zoom with Ctrl + drag
+        cameraDistance -= dy * 0.1f;
+        if (cameraDistance < 1.0f) cameraDistance = 1.0f;
+    } else {
+        // Rotate camera
+        cameraAngleY += dx * 0.01f;
+        cameraAngleX += dy * 0.01f;
+
+        // Limit vertical rotation
+        if (cameraAngleX > 1.5f) cameraAngleX = 1.5f;
+        if (cameraAngleX < -1.5f) cameraAngleX = -1.5f;
+    }
+
+    lastX = x;
+    lastY = y;
+    glutPostRedisplay();
 }
 
 // Handle mouse events
@@ -402,7 +586,56 @@ void mouse(int button, int state, int x, int y) {
 }
 
 // Handle keyboard inputs
+// Keyboard callback
 void keyboard(unsigned char key, int x, int y) {
+    switch (key) {
+        // Camera movement
+        case 'w': cameraPosY += 0.1f; break;
+        case 's': cameraPosY -= 0.1f; break;
+        case 'a': cameraPosX -= 0.1f; break;
+        case 'd': cameraPosX += 0.1f; break;
+
+        // Object manipulation
+        case 'h':  // Toggle visibility
+            if (selectedMeshIndex >= 0) {
+                meshInfoMap[selectedMeshIndex].isVisible =
+                    !meshInfoMap[selectedMeshIndex].isVisible;
+            }
+            break;
+
+        case 'm':  // Cycle display modes
+            if (selectedMeshIndex >= 0) {
+                auto& mode = meshInfoMap[selectedMeshIndex].displayMode;
+                if (mode == GL_FILL) mode = GL_LINE;
+                else if (mode == GL_LINE) mode = GL_POINT;
+                else mode = GL_FILL;
+            }
+            break;
+
+        // Selected object movement
+        case 'i':  // Up
+            if (selectedMeshIndex >= 0)
+                meshInfoMap[selectedMeshIndex].position[1] += 0.1f;
+            break;
+        case 'k':  // Down
+            if (selectedMeshIndex >= 0)
+                meshInfoMap[selectedMeshIndex].position[1] -= 0.1f;
+            break;
+        case 'j':  // Left
+            if (selectedMeshIndex >= 0)
+                meshInfoMap[selectedMeshIndex].position[0] -= 0.1f;
+            break;
+        case 'l':  // Right
+            if (selectedMeshIndex >= 0)
+                meshInfoMap[selectedMeshIndex].position[0] += 0.1f;
+            break;
+
+        case 27:  // ESC key
+            exit(0);
+            break;
+    }
+
+    glutPostRedisplay();
     if (!TwEventKeyboardGLUT(key, x, y)) {
         switch (key) {
             case 'w': cameraPosY += 0.1f; break;
@@ -453,6 +686,8 @@ void keyboard(unsigned char key, int x, int y) {
         glutPostRedisplay();
     }
 }
+
+// Main function and setup
 
 void initAnimation() {
     glutTimerFunc(16, updateAnimation, 0); // Start animation timer
