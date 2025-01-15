@@ -20,7 +20,9 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated />
+    <generated>
+      <config projectName="OpenGL" targetName="OpenGL" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -29,6 +31,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c059bbe-a3fe-442f-829b-371f8faf9990" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,6 +65,11 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/main.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/bakr/CLionProjects/Drone-OpenGL/main.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -94,7 +102,7 @@
     &quot;RunOnceActivity.west.config.association.type.startup.service&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Rebasing main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/bakr/CLionProjects/Drone-OpenGL&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -116,11 +124,6 @@
     <configuration name="OpenGL" type="CMakeListConfigurationType" factoryName="CMakeListConfigurationFactory" temporary="true">
       <method v="2" />
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="CMake Debug.OpenGL" />
@@ -141,7 +144,8 @@
       <workItem from="1736955164936" duration="62000" />
       <workItem from="1736955256133" duration="931000" />
       <workItem from="1736956192949" duration="1155000" />
-      <workItem from="1736957361201" duration="15000" />
+      <workItem from="1736957361201" duration="350000" />
+      <workItem from="1736957723949" duration="108000" />
     </task>
     <servers />
   </component>
