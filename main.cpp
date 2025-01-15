@@ -55,6 +55,68 @@ void toggleCollisionHighlights();
 bool checkCollision(const aiMesh* mesh1, const aiMesh* mesh2);
 void drawCollisionHighlight(const aiMesh* mesh);
 
+
+int selectedObjectIndex = -1; // No object selected by default
+bool animateSelectedObject = false;
+float animationAngle = 0.0f; // Rotation angle
+const float animationSpeed = 2.0f; // Speed of rotation (degrees per frame)
+
+
+void renderSelectedObject(const aiMesh* mesh) {
+    glPushMatrix();
+
+    // Rotate around the object's center
+    if (animateSelectedObject) {
+        glRotatef(animationAngle, 0.0f, 1.0f, 0.0f);
+    }
+
+    glColor3f(0.5f, 0.8f, 1.0f); // Highlight color for the selected object
+    glBegin(GL_TRIANGLES);
+    for (unsigned int j = 0; j < mesh->mNumFaces; j++) {
+        aiFace face = mesh->mFaces[j];
+        for (unsigned int k = 0; k < face.mNumIndices; k++) {
+            unsigned int index = face.mIndices[k];
+            if (mesh->HasNormals()) {
+                aiVector3D normal = mesh->mNormals[index];
+                glNormal3f(normal.x, normal.y, normal.z);
+            }
+            if (mesh->HasTextureCoords(0)) {
+                aiVector3D texCoord = mesh->mTextureCoords[0][index];
+                glTexCoord2f(texCoord.x, texCoord.y);
+            }
+            aiVector3D vertex = mesh->mVertices[index];
+            glVertex3f(vertex.x, vertex.y, vertex.z);
+        }
+    }
+    glEnd();
+
+    glPopMatrix();
+}
+
+// Update animation angle
+void updateAnimation(int value) {
+    if (animateSelectedObject) {
+        animationAngle += animationSpeed;
+        if (animationAngle >= 360.0f) {
+            animationAngle -= 360.0f; // Keep the angle within [0, 360]
+        }
+    }
+    glutPostRedisplay(); // Request a redraw
+    glutTimerFunc(16, updateAnimation, 0); // ~60 FPS (16 ms interval)
+}
+
+// Function to toggle object selection
+void toggleObjectSelection(int objectIndex) {
+    if (selectedObjectIndex == objectIndex) {
+        selectedObjectIndex = -1; // Deselect
+    } else {
+        selectedObjectIndex = objectIndex; // Select object
+    }
+    glutPostRedisplay();
+}
+
+// Function to render and animate a selected object
+
 // Helper function to calculate bounding boxes
 void calculateBoundingBox(const aiMesh* mesh, aiVector3D& min, aiVector3D& max) {
     min = aiVector3D(FLT_MAX, FLT_MAX, FLT_MAX);
@@ -168,47 +230,53 @@ GLuint loadTexture(const std::string& path) {
 
 
 // Updated renderNode function to apply textures
-void renderNode(const aiNode* node, const aiScene* scene) {
+void renderNode(const aiNode* node, const aiScene* scene, int nodeIndex = 0) {
     for (unsigned int i = 0; i < node->mNumMeshes; i++) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        glColor3f(materialColor[0], materialColor[1], materialColor[2]);
 
-        glEnable(GL_TEXTURE_2D); // Enable texturing
-        glBindTexture(GL_TEXTURE_2D, textureID);
+        // Render selected object in isolation
+        if (selectedObjectIndex == nodeIndex) {
+            renderSelectedObject(mesh);
+        } else if (selectedObjectIndex == -1) { // Render all objects if no selection
+            glColor3f(materialColor[0], materialColor[1], materialColor[2]);
 
-        glBegin(GL_TRIANGLES);
-        for (unsigned int j = 0; j < mesh->mNumFaces; j++) {
-            aiFace face = mesh->mFaces[j];
-            for (unsigned int k = 0; k < face.mNumIndices; k++) {
-                unsigned int index = face.mIndices[k];
-                if (mesh->HasNormals()) {
-                    aiVector3D normal = mesh->mNormals[index];
-                    glNormal3f(normal.x, normal.y, normal.z);
+            glEnable(GL_TEXTURE_2D); // Enable texturing
+            glBindTexture(GL_TEXTURE_2D, textureID);
+
+            glBegin(GL_TRIANGLES);
+            for (unsigned int j = 0; j < mesh->mNumFaces; j++) {
+                aiFace face = mesh->mFaces[j];
+                for (unsigned int k = 0; k < face.mNumIndices; k++) {
+                    unsigned int index = face.mIndices[k];
+                    if (mesh->HasNormals()) {
+                        aiVector3D normal = mesh->mNormals[index];
+                        glNormal3f(normal.x, normal.y, normal.z);
+                    }
+                    if (mesh->HasTextureCoords(0)) {
+                        aiVector3D texCoord = mesh->mTextureCoords[0][index];
+                        glTexCoord2f(texCoord.x, texCoord.y);
+                    }
+                    aiVector3D vertex = mesh->mVertices[index];
+                    glVertex3f(vertex.x, vertex.y, vertex.z);
                 }
-                if (mesh->HasTextureCoords(0)) {
-                    aiVector3D texCoord = mesh->mTextureCoords[0][index];
-                    glTexCoord2f(texCoord.x, texCoord.y);
-                }
-                aiVector3D vertex = mesh->mVertices[index];
-                glVertex3f(vertex.x, vertex.y, vertex.z);
             }
-        }
-        glEnd();
+            glEnd();
 
-        glDisable(GL_TEXTURE_2D); // Disable texturing after use
+            glDisable(GL_TEXTURE_2D); // Disable texturing after use
 
-        // Highlight collisions
-        if (showCollisionHighlights) {
-            for (unsigned int j = 0; j < scene->mNumMeshes; ++j) {
-                if (mesh != scene->mMeshes[j] && checkCollision(mesh, scene->mMeshes[j])) {
-                    drawCollisionHighlight(mesh);
+            // Highlight collisions
+            if (showCollisionHighlights) {
+                for (unsigned int j = 0; j < scene->mNumMeshes; ++j) {
+                    if (mesh != scene->mMeshes[j] && checkCollision(mesh, scene->mMeshes[j])) {
+                        drawCollisionHighlight(mesh);
+                    }
                 }
             }
         }
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; i++) {
-        renderNode(node->mChildren[i], scene);
+        renderNode(node->mChildren[i], scene, i);
     }
 }
 
@@ -341,6 +409,36 @@ void keyboard(unsigned char key, int x, int y) {
             case 's': cameraPosY -= 0.1f; break;
             case 'a': cameraPosX -= 0.1f; break;
             case 'd': cameraPosX += 0.1f; break;
+            case '1': // Select first object
+                toggleObjectSelection(0); // Select the first object
+                break;
+            case '2': // Select second object
+                toggleObjectSelection(1); // Select the second object
+                break;
+            case '3': // Select third object
+                toggleObjectSelection(2); // Select the third object
+                break;
+            case '4': // Select fourth object
+                toggleObjectSelection(3); // Select the fourth object
+                break;
+            case '5': // Select fifth object
+                toggleObjectSelection(4); // Select the fifth object
+                break;
+            case '6': // Select fourth object
+                toggleObjectSelection(5); // Select the fourth object
+                break;
+            case '7': // Select fifth object
+                toggleObjectSelection(6); // Select the fifth object
+                break;
+            case '8': // Select fifth object
+                toggleObjectSelection(7); // Select the fifth object
+                break;
+            case '9': // Select fifth object
+                toggleObjectSelection(8); // Select the fifth object
+                break;
+            case 'l': // Toggle animation
+                animateSelectedObject = !animateSelectedObject;
+                break;
             case 'r': // Reset camera
                 cameraAngleX = 0.0f;
                 cameraAngleY = 0.0f;
@@ -354,6 +452,10 @@ void keyboard(unsigned char key, int x, int y) {
         }
         glutPostRedisplay();
     }
+}
+
+void initAnimation() {
+    glutTimerFunc(16, updateAnimation, 0); // Start animation timer
 }
 
 // Handle window resize
@@ -388,6 +490,8 @@ int main(int argc, char** argv) {
     glutMouseFunc(mouse);
     glutMotionFunc(mouseMotion);
     glutKeyboardFunc(keyboard);
+
+    initAnimation();
 
     // Start main loop
     glutMainLoop();
